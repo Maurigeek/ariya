@@ -156,6 +156,30 @@
         alert(`Paiement de ${this.totalPrice} FCFA via ${this.selectedPaymentMethod.name}`);
       },
     },
+    methods: {
+    async processPayment() {
+      try {
+        // Simulation du traitement du paiement (par exemple, une API de paiement)
+        const paymentSuccess = await this.fakePaymentAPI();
+
+        if (paymentSuccess) {
+          // Rediriger vers la page de confirmation après succès
+          this.$router.push("/confirmation");
+        } else {
+          alert("Le paiement a échoué. Veuillez réessayer.");
+        }
+      } catch (error) {
+        console.error("Erreur lors du paiement :", error);
+        alert("Une erreur s'est produite. Veuillez réessayer.");
+      }
+    },
+    fakePaymentAPI() {
+      // Simulation d'une API avec un délai
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(true), 2000); // Retourne "true" après 2 secondes
+      });
+    },
+  },
   };
   </script>
   
