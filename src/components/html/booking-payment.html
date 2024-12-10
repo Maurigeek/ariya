@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation & Paiement</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #2EC4B6;
+            --accent: #FF206E;
+            --background: #F7F7F7;
+            --text: #2D3436;
+            --gray: #95A5A6;
+            --green: #27AE60;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+        }
+
+        .header {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .page-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .event-summary {
+            background: white;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .event-basic {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .event-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .ticket-section {
+            background: white;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-type {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .ticket-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--gray);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+        }
+
+        .payment-method {
+            background: white;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .method-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .method-option.selected {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--background);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .method-info {
+            flex: 1;
+        }
+
+        .method-name {
+            font-weight: 600;
+        }
+
+        .method-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .summary-section {
+            background: white;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-total {
+            border-top: 1px solid #eee;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            font-weight: 600;
+        }
+
+        .checkout-button {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .secure-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--green);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="page-title">Réservation</h1>
+    </header>
+
+    <div class="event-summary">
+        <div class="event-basic">
+            <img src="/api/placeholder/80/80" alt="Event" class="event-image">
+            <div class="event-info">
+                <h3>Festival des Arts et de la Culture</h3>
+                <div class="event-details">
+                    <div><i class="far fa-calendar"></i> Sam, 16 Déc • 19:00</div>
+                    <div><i class="fas fa-map-marker-alt"></i> Cotonou, Bénin</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ticket-section">
+        <h2 class="section-title">
+            Sélectionnez vos billets
+            <span style="color: var(--gray); font-size: 0.9rem;">Max. 4 tickets</span>
+        </h2>
+
+        <div class="ticket-type">
+            <div class="ticket-header">
+                <div>
+                    <div style="font-weight: 600;">Pass VIP</div>
+                    <div style="color: var(--gray); font-size: 0.9rem;">Accès premium + Cocktail</div>
+                </div>
+                <div class="ticket-price">10000 FCFA</div>
+            </div>
+            <div class="quantity-control">
+                <button class="quantity-btn">-</button>
+                <span>0</span>
+                <button class="quantity-btn">+</button>
+            </div>
+        </div>
+
+        <div class="ticket-type">
+            <div class="ticket-header">
+                <div>
+                    <div style="font-weight: 600;">Pass Standard</div>
+                    <div style="color: var(--gray); font-size: 0.9rem;">Accès général</div>
+                </div>
+                <div class="ticket-price">5000 FCFA</div>
+            </div>
+            <div class="quantity-control">
+                <button class="quantity-btn">-</button>
+                <span>1</span>
+                <button class="quantity-btn">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="payment-method">
+        <h2 class="section-title">Mode de paiement</h2>
+        
+        <div class="method-option selected">
+            <div class="method-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="method-info">
+                <div class="method-name">Mobile Money</div>
+                <div class="method-description">MTN, Moov, Wave</div>
+            </div>
+            <i class="fas fa-check" style="color: var(--primary)"></i>
+        </div>
+
+        <div class="method-option">
+            <div class="method-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="method-info">
+                <div class="method-name">Carte bancaire</div>
+                <div class="method-description">Visa, Mastercard</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-section">
+        <h2 class="section-title">Récapitulatif</h2>
+        
+        <div class="summary-row">
+            <span>1 × Pass Standard</span>
+            <span>5000 FCFA</span>
+        </div>
+        <div class="summary-row">
+            <span>Frais de service</span>
+            <span>500 FCFA</span>
+        </div>
+        <div class="summary-row summary-total">
+            <span>Total</span>
+            <span>5500 FCFA</span>
+        </div>
+    </div>
+
+    <div style="height: 100px;"></div>
+
+    <div class="checkout-button">
+        <button class="pay-btn">Payer 5500 FCFA</button>
+        <div class="secure-info">
+            <i class="fas fa-lock"></i>
+            <span>Paiement sécurisé</span>
+        </div>
+    </div>
+
+    <script>
+        // Gestion des boutons de quantité
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const quantitySpan = btn.parentElement.querySelector('span');
+                let quantity = parseInt(quantitySpan.textContent);
+                
+                if (btn.textContent === '+' && quantity < 4) {
+                    quantitySpan.textContent = quantity + 1;
+                } else if (btn.textContent === '-' && quantity > 0) {
+                    quantitySpan.textContent = quantity - 1;
+                }
+            });
+        });
+
+        // Gestion des méthodes de paiement
+        document.querySelectorAll('.method-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelector('.method-option.selected')
+                    .classList.remove('selected');
+                option.classList.add('selected');
+            });
+        });
+
+        // Bouton retour
+        document.querySelector('.back-btn').addEventListener('click', () => {
+            history.back();
+        });
+    </script>
+</body>
+</html>

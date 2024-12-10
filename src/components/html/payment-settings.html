@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres de Paiement</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #2EC4B6;
+            --success: #27AE60;
+            --background: #F7F7F7;
+            --text: #2D3436;
+            --gray: #95A5A6;
+            --light-gray: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            padding-bottom: 2rem;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-button {
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            color: var(--text);
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .balance-card {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            margin: 1rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .balance-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-amount {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .card-button {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .section {
+            background: white;
+            margin: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .add-button {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .payment-details {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .transaction {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .transaction-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .amount-debit {
+            color: var(--text);
+        }
+
+        .amount-credit {
+            color: var(--success);
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .security-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--background);
+            margin: 1rem;
+            border-radius: 8px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="header-title">Paiements</h1>
+    </header>
+
+    <div class="balance-card">
+        <div class="balance-title">Solde disponible</div>
+        <div class="balance-amount">25,000 FCFA</div>
+        <div class="card-actions">
+            <button class="card-button">
+                <i class="fas fa-plus"></i>
+                <span>Recharger</span>
+            </button>
+            <button class="card-button">
+                <i class="fas fa-arrow-right"></i>
+                <span>Retirer</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Moyens de paiement</h2>
+            <div class="add-button">
+                <i class="fas fa-plus"></i>
+                <span>Ajouter</span>
+            </div>
+        </div>
+
+        <div class="payment-method">
+            <div class="payment-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="payment-info">
+                <div class="payment-name">MTN Mobile Money</div>
+                <div class="payment-details">+229 97 XX XX XX</div>
+            </div>
+            <i class="fas fa-check-circle" style="color: var(--success)"></i>
+        </div>
+
+        <div class="payment-method">
+            <div class="payment-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="payment-info">
+                <div class="payment-name">Carte Visa</div>
+                <div class="payment-details">**** **** **** 4242</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Historique des transactions</h2>
+        </div>
+
+        <div class="filters">
+            <div class="filter-chip active">Tout</div>
+            <div class="filter-chip">Recharges</div>
+            <div class="filter-chip">Achats</div>
+            <div class="filter-chip">Remboursements</div>
+        </div>
+
+        <div class="transaction">
+            <div class="transaction-icon">
+                <i class="fas fa-ticket-alt" style="color: var(--primary)"></i>
+            </div>
+            <div class="transaction-info">
+                <div class="transaction-title">Festival des Arts</div>
+                <div class="transaction-date">15 Déc, 2023 - 14:30</div>
+            </div>
+            <div class="transaction-amount amount-debit">-5,000 FCFA</div>
+        </div>
+
+        <div class="transaction">
+            <div class="transaction-icon">
+                <i class="fas fa-plus" style="color: var(--success)"></i>
+            </div>
+            <div class="transaction-info">
+                <div class="transaction-title">Recharge compte</div>
+                <div class="transaction-date">14 Déc, 2023 - 10:15</div>
+            </div>
+            <div class="transaction-amount amount-credit">+10,000 FCFA</div>
+        </div>
+    </div>
+
+    <div class="security-info">
+        <i class="fas fa-shield-alt"></i>
+        <span>Vos paiements sont sécurisés avec un chiffrement de bout en bout</span>
+    </div>
+
+    <script>
+        // Gestion des filtres
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelector('.filter-chip.active').classList.remove('active');
+                chip.classList.add('active');
+            });
+        });
+
+        // Bouton retour
+        document.querySelector('.back-button').addEventListener('click', () => {
+            history.back();
+        });
+    </script>
+</body>
+</html>

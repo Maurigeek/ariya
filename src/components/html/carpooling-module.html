@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covoiturage Événement</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #2EC4B6;
+            --success: #27AE60;
+            --warning: #F1C40F;
+            --danger: #E74C3C;
+            --background: #F7F7F7;
+            --text: #2D3436;
+            --gray: #95A5A6;
+            --light-gray: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+        }
+
+        .header {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .back-btn {
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .add-ride-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-info {
+            background: var(--background);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .event-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .event-details h3 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .event-details p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .search-section {
+            background: white;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 12px;
+        }
+
+        .search-input {
+            padding: 0.8rem 1rem;
+            background: var(--background);
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 0.5rem;
+        }
+
+        .filter-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border-radius: 20px;
+            white-space: nowrap;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .ride-list {
+            padding: 1rem;
+        }
+
+        .ride-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .ride-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .driver-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .driver-info {
+            flex: 1;
+        }
+
+        .driver-name {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            color: var(--warning);
+        }
+
+        .ride-details {
+            padding: 1rem;
+        }
+
+        .route-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .route-points {
+            flex: 1;
+        }
+
+        .route-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .point-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .point-info {
+            flex: 1;
+        }
+
+        .point-address {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .point-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .ride-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .seats-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .request-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .verified-badge {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <button class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Covoiturage</h1>
+            <button class="add-ride-btn">
+                <i class="fas fa-plus"></i>
+                <span>Proposer</span>
+            </button>
+        </div>
+
+        <div class="event-info">
+            <img src="/api/placeholder/50/50" alt="Event" class="event-image">
+            <div class="event-details">
+                <h3>Festival des Arts</h3>
+                <p>Sam. 16 Déc • 19:00</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="search-section">
+        <input type="text" class="search-input" placeholder="Rechercher un trajet...">
+        <div class="filter-row">
+            <div class="filter-chip active">Tous</div>
+            <div class="filter-chip">Disponibles</div>
+            <div class="filter-chip">Départ proche</div>
+            <div class="filter-chip">Meilleur prix</div>
+            <div class="filter-chip">Plus de places</div>
+        </div>
+    </div>
+
+    <div class="ride-list">
+        <div class="ride-card">
+            <div class="ride-header">
+                <div class="driver-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="driver-info">
+                    <div class="driver-name">
+                        Jean D.
+                        <span class="verified-badge">
+                            <i class="fas fa-check"></i>
+                            Vérifié
+                        </span>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.8 (24 trajets)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ride-details">
+                <div class="route-info">
+                    <div class="route-points">
+                        <div class="route-point">
+                            <div class="point-icon" style="color: var(--success)">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="point-info">
+                                <div class="point-address">Calavi - IITA</div>
+                                <div class="point-time">Départ: 17:30</div>
+                            </div>
+                        </div>
+                        <div class="route-point">
+                            <div class="point-icon" style="color: var(--danger)">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="point-info">
+                                <div class="point-address">Centre des Arts, Cotonou</div>
+                                <div class="point-time">Arrivée: 18:30</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ride-footer">
+                <div>
+                    <div class="price">1,500 FCFA</div>
+                    <div class="seats-info">
+                        <i class="fas fa-user-friends"></i>
+                        <span>3 places restantes</span>
+                    </div>
+                </div>
+                <button class="request-btn">Réserver</button>
+            </div>
+        </div>
+
+        <div class="ride-card">
+            <div class="ride-header">
+                <div class="driver-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="driver-info">
+                    <div class="driver-name">
+                        Marie K.
+                        <span class="verified-badge">
+                            <i class="fas fa-check"></i>
+                            Vérifié
+                        </span>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.9 (12 trajets)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ride-details">
+                <div class="route-info">
+                    <div class="route-points">
+                        <div class="route-point">
+                            <div class="point-icon" style="color: var(--success)">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="point-info">
+                                <div class="point-address">Porto-Novo - Centre ville</div>
+                                <div class="point-time">Départ: 17:00</div>
+                            </div>
+                        </div>
+                        <div class="route-point">
+                            <div class="point-icon" style="color: var(--danger)">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="point-info">
+                                <div class="point-address">Centre des Arts, Cotonou</div>
+                                <div class="point-time">Arrivée: 18:15</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ride-footer">
+                <div>
+                    <div class="price">2,000 FCFA</div>
+                    <div class="seats-info">
+                        <i class="fas fa-user-friends"></i>
+                        <span>2 places restantes</span>
+                    </div>
+                </div>
+                <button class="request-btn">Réserver</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gestion des filtres
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelector('.filter-chip.active').classList.remove('active');
+                chip.classList.add('active');
+            });
+        });
+
+        // Retour
+        document.querySelector('.back-btn').addEventListener('click', () => {
+            history.back();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres de Notification</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #2EC4B6;
+            --background: #F7F7F7;
+            --text: #2D3436;
+            --gray: #95A5A6;
+            --light-gray: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+        }
+
+        .header {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-button {
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            color: var(--text);
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .notification-container {
+            padding: 1rem;
+        }
+
+        .notification-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1rem;
+            background: var(--background);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        .notification-info {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .notification-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--light-gray);
+            border-radius: 24px;
+            transition: .4s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        .toggle-input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .notification-preview {
+            background: white;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .preview-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-app-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: var(--primary);
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-left: auto;
+        }
+
+        .schedule-section {
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            margin: 1rem;
+        }
+
+        .time-slots {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none;
+        }
+
+        .time-slot {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .time-slot.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .quiet-hours {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="header-title">Notifications</h1>
+    </header>
+
+    <div class="notification-container">
+        <div class="notification-preview">
+            <div class="preview-header">
+                <div class="preview-app-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <span>Aperçu des notifications</span>
+                <span class="notification-time">maintenant</span>
+            </div>
+            <div class="preview-content">
+                <div class="preview-title">Festival des Arts commence dans 1h !</div>
+                <p>N'oubliez pas votre billet électronique.</p>
+            </div>
+        </div>
+
+        <div class="notification-section">
+            <div class="section-header">
+                <h2 class="section-title">Notifications Push</h2>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="notification-info">
+                    <div class="notification-title">Rappels d'événements</div>
+                    <div class="notification-description">1h avant le début de l'événement</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="notification-info">
+                    <div class="notification-title">Billets disponibles</div>
+                    <div class="notification-description">Événements suivis et recommandés</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <div class="notification-info">
+                    <div class="notification-title">Promotions</div>
+                    <div class="notification-description">Offres spéciales et réductions</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="notification-section">
+            <div class="section-header">
+                <h2 class="section-title">Notifications par Email</h2>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="notification-info">
+                    <div class="notification-title">Confirmations</div>
+                    <div class="notification-description">Réservations et paiements</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="notification-info">
+                    <div class="notification-title">Newsletter</div>
+                    <div class="notification-description">Actualités et événements à venir</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="schedule-section">
+            <h2 class="section-title">Horaires de notification</h2>
+            
+            <div class="time-slots">
+                <div class="time-slot">Temps réel</div>
+                <div class="time-slot active">Matin (8h)</div>
+                <div class="time-slot">Après-midi (14h)</div>
+                <div class="time-slot">Soir (18h)</div>
+            </div>
+
+            <div class="quiet-hours">
+                <div>
+                    <div class="notification-title">Mode silencieux</div>
+                    <div class="notification-description">22h - 7h</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gestion des time slots
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', () => {
+                document.querySelector('.time-slot.active')?.classList.remove('active');
+                slot.classList.add('active');
+            });
+        });
+
+        // Animation des toggles
+        document.querySelectorAll('.toggle-input').forEach(toggle => {
+            toggle.addEventListener('change', () => {
+                const item = toggle.closest('.notification-item');
+                item.style.backgroundColor = toggle.checked ? 'rgba(255, 107, 53, 0.05)' : 'white';
+                setTimeout(() => {
+                    item.style.backgroundColor = 'white';
+                }, 300);
+            });
+        });
+
+        // Bouton retour
+        document.querySelector('.back-button').addEventListener('click', () => {
+            history.back();
+        });
+    </script>
+</body>
+</html>

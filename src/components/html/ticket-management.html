@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tickets</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        :root {
+            --primary-color: #FF4B2B;
+            --text-color: #333;
+            --background-gray: #f5f5f5;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        .header {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+        }
+
+        .back-button {
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-form {
+            padding: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .toggle-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--background-gray);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 24px;
+            transition: .4s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .commission-info {
+            background: var(--background-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .commission-info h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .commission-amount {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .quantity-value {
+            width: 60px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .action-button {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .submit-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="title">Nouveau Ticket</h1>
+    </header>
+
+    <form class="ticket-form">
+        <div class="form-group">
+            <label class="form-label">Nom du ticket</label>
+            <input type="text" class="form-input" placeholder="Ex: Entrée VIP">
+        </div>
+
+        <div class="form-group">
+            <div class="toggle-input">
+                <span>Entrée Gratuite</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="freeTicket">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group" id="priceGroup">
+            <label class="form-label">Prix (F CFA)</label>
+            <input type="number" class="form-input" value="100">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Quantité disponible</label>
+            <div class="quantity-input">
+                <button type="button" class="quantity-button" id="decreaseQuantity">-</button>
+                <input type="number" class="form-input quantity-value" value="100">
+                <button type="button" class="quantity-button" id="increaseQuantity">+</button>
+            </div>
+        </div>
+
+        <div class="commission-info">
+            <h3>Commission sur ticket:</h3>
+            <span class="commission-amount">10 F CFA</span>
+        </div>
+    </form>
+
+    <div class="action-button">
+        <button type="submit" class="submit-button">Créer le ticket</button>
+    </div>
+
+    <script>
+        // Gestion du toggle entrée gratuite
+        const freeTicketToggle = document.getElementById('freeTicket');
+        const priceGroup = document.getElementById('priceGroup');
+
+        freeTicketToggle.addEventListener('change', function() {
+            priceGroup.style.display = this.checked ? 'none' : 'block';
+        });
+
+        // Gestion de la quantité
+        const quantityInput = document.querySelector('.quantity-value');
+        const decreaseButton = document.getElementById('decreaseQuantity');
+        const increaseButton = document.getElementById('increaseQuantity');
+
+        decreaseButton.addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        increaseButton.addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+        });
+
+        // Retour en arrière
+        document.querySelector('.back-button').addEventListener('click', () => {
+            history.back();
+        });
+    </script>
+</body>
+</html>

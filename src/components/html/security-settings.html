@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sécurité et Confidentialité</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #2EC4B6;
+            --success: #27AE60;
+            --warning: #F1C40F;
+            --danger: #E74C3C;
+            --background: #F7F7F7;
+            --text: #2D3436;
+            --gray: #95A5A6;
+            --light-gray: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+        }
+
+        .header {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-button {
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            margin-right: 1rem;
+            color: var(--text);
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .security-score {
+            background: white;
+            margin: 1rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            margin: 0 auto 1rem;
+            background: conic-gradient(var(--primary) 80%, var(--light-gray) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .score-circle::after {
+            content: '';
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 55px;
+            background: white;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            z-index: 1;
+        }
+
+        .score-label {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .security-tips {
+            padding: 1rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .section {
+            background: white;
+            margin: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .security-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-title {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .security-status {
+            font-size: 0.9rem;
+        }
+
+        .status-active {
+            color: var(--success);
+        }
+
+        .status-warning {
+            color: var(--warning);
+        }
+
+        .status-danger {
+            color: var(--danger);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--light-gray);
+            border-radius: 24px;
+            transition: .4s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        .toggle-input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .recent-activity {
+            padding: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .activity-time {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .device-info {
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .action-button {
+            margin: 1rem;
+            padding: 1rem;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            width: calc(100% - 2rem);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="header-title">Sécurité</h1>
+    </header>
+
+    <div class="security-score">
+        <div class="score-circle">
+            <span class="score-value">80%</span>
+        </div>
+        <div class="score-label">Score de sécurité</div>
+        <div class="security-tips">
+            <i class="fas fa-shield-alt" style="color: var(--primary)"></i>
+            <div>
+                <strong>Conseil :</strong> Activez l'authentification à deux facteurs pour renforcer la sécurité de votre compte.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Sécurité du compte</h2>
+        </div>
+
+        <div class="security-item">
+            <div class="security-icon" style="color: var(--primary)">
+                <i class="fas fa-lock"></i>
+            </div>
+            <div class="security-info">
+                <div class="security-title">Mot de passe</div>
+                <div class="security-status status-warning">Dernière modification il y a 6 mois</div>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--gray)"></i>
+        </div>
+
+        <div class="security-item">
+            <div class="security-icon" style="color: var(--success)">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="security-info">
+                <div class="security-title">Authentification à deux facteurs</div>
+                <div class="security-status status-active">Activé</div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" class="toggle-input" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+
+        <div class="security-item">
+            <div class="security-icon" style="color: var(--warning)">
+                <i class="fas fa-fingerprint"></i>
+            </div>
+            <div class="security-info">
+                <div class="security-title">Biométrie pour les paiements</div>
+                <div class="security-status">Désactivé</div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" class="toggle-input">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Activité récente</h2>
+        </div>
+
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-sign-in-alt" style="color: var(--primary)"></i>
+            </div>
+            <div class="activity-info">
+                <div class="activity-title">Connexion réussie</div>
+                <div class="activity-time">Aujourd'hui, 14:30</div>
+                <div class="device-info">
+                    <i class="fas fa-mobile-alt"></i> iPhone 12 • Cotonou, Bénin
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-sync-alt" style="color: var(--warning)"></i>
+            </div>
+            <div class="activity-info">
+                <div class="activity-title">Modification du mot de passe</div>
+                <div class="activity-time">Il y a 6 mois</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="action-button">
+        <i class="fas fa-power-off"></i>
+        <span>Déconnecter toutes les sessions</span>
+    </button>
+
+    <script>
+        // Gestion des bascules
+        document.querySelectorAll('.toggle-input').forEach(toggle => {
+            toggle.addEventListener('change', () => {
+                const item = toggle.closest('.security-item');
+                const status = item.querySelector('.security-status');
+                if (toggle.checked) {
+                    status.textContent = 'Activé';
+                    status.className = 'security-status status-active';
+                } else {
+                    status.textContent = 'Désactivé';
+                    status.className = 'security-status';
+                }
+            });
+        });
+
+        // Bouton retour
+        document.querySelector('.back-button').addEventListener('click', () => {
+            history.back();
+        });
+    </script>
+</body>
+</html>
