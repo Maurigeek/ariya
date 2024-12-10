@@ -6,15 +6,11 @@
         <button class="back-button" @click="goBack">
           <i class="fas fa-arrow-left"></i>
         </button>
-        <h1 class="header-title">{{ pageTitle }}</h1>
+        <h1 class="header-title">Liste des événements</h1>
       </div>
     </header>
-    <TypeSwitcher :activeType="activeType" @updateActiveType="updateActiveType" />
-    <Categories :activeType="activeType" />
-<!-- Conditionally render EventCard or TourismCard -->
-    <EventCard v-if="activeType === 'events'" />
-    <TourismCard v-if="activeType === 'tourism'" />      
-    <FloatingChat />
+      <EventCard />
+      <FloatingChat />
        <!-- Organizers List -->
 
     </div>
@@ -24,7 +20,6 @@
   import Header from '../components/Header.vue';
   import TypeSwitcher from '../components/TypeSwitcher.vue';
   import Categories from '../components/Categories.vue';
-  import TourismCard from '../components/TourismCard.vue';
   import EventCard from '../components/EventCard.vue';
   import FloatingChat from '../components/FloatingChat.vue';
   import BottomNav from '../components/BottomNav.vue';
@@ -35,8 +30,6 @@
       TypeSwitcher,
       Categories,
       EventCard,
-      TourismCard,
-
       FloatingChat,
       BottomNav
     },
@@ -45,14 +38,7 @@
         activeType: 'events',
       };
     },
-
-    computed: {
-    pageTitle() {
-      return this.activeType === "events"
-        ? "Liste des événements"
-        : "Liste des tourismes disponibles";
-    },
-  },
+  
     methods: {
       updateActiveType(type) {
         this.activeType = type;

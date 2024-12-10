@@ -30,21 +30,29 @@
     data() {
       return {
         eventCategories: [
-          { id: 1, name: 'Tendances', icon: 'fas fa-star' },
-          { id: 2, name: 'Conférences', icon: 'fas fa-microphone' },
-          { id: 3, name: 'Réseautage', icon: 'fas fa-handshake' },
-          { id: 4, name: 'Concerts', icon: 'fas fa-music' },
-          { id: 5, name: 'Formation', icon: 'fas fa-graduation-cap' },
-          { id: 6, name: 'Tech', icon: 'fas fa-laptop-code' },
+
+  { id: 1, name: 'Hackathons', icon: 'fas fa-code' },
+  { id: 2, name: 'Conférences IA', icon: 'fas fa-brain' },
+  { id: 3, name: 'Entrepreneuriat Numérique', icon: 'fas fa-lightbulb' },
+  { id: 4, name: 'Semaine du Numérique', icon: 'fas fa-laptop' },
+  { id: 5, name: 'Expositions Technologiques', icon: 'fas fa-robot' }
         ],
         tourismCategories: [
-          { id: 1, name: 'Populaires', icon: 'fas fa-compass' },
-          { id: 2, name: 'Historique', icon: 'fas fa-monument' },
-          { id: 3, name: 'Plages', icon: 'fas fa-umbrella-beach' },
-          { id: 4, name: 'Parcs', icon: 'fas fa-tree' },
-          { id: 5, name: 'Gastronomie', icon: 'fas fa-utensils' },
-          { id: 6, name: 'Culture', icon: 'fas fa-mask' },
-        ],
+  { id: 1, name: 'Monuments Historiques', icon: 'fas fa-landmark' },
+  { id: 2, name: 'Parcs Nationaux', icon: 'fas fa-tree' },
+  { id: 3, name: 'Villages Touristiques', icon: 'fas fa-home' },
+  { id: 4, name: 'Plages et Bord de Mer', icon: 'fas fa-umbrella-beach' },
+  { id: 5, name: 'Sites Culturels', icon: 'fas fa-theater-masks' },
+  { id: 6, name: 'Marchés Locaux', icon: 'fas fa-shopping-basket' },
+  { id: 7, name: 'Forêts Sacrées', icon: 'fas fa-leaf' },
+  { id: 8, name: 'Musées', icon: 'fas fa-university' },
+  { id: 9, name: 'Fleuves et Lacs', icon: 'fas fa-water' },
+  { id: 10, name: 'Festivals et Célébrations', icon: 'fas fa-music' },
+  { id: 11, name: 'Cérémonies Guélédé', icon: 'fas fa-mask' },
+  { id: 12, name: 'Festival des Masques de Porto-Novo', icon: 'fas fa-theater-masks' },
+  { id: 13, name: 'WeLovEya', icon: 'fas fa-heartbeat' },
+  { id: 14, name: 'Fête de la Gaani', icon: 'fas fa-drum' }
+],
       };
     },
   };

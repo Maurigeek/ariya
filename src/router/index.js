@@ -22,138 +22,136 @@ const DetailedReports = () => import ('../views/DetailedReports.vue');
 const Event = () => import ('../views/Event.vue');
 const CreateOrganizer = () => import ('../views/CreateOrganizer.vue');
 const EditOrganizer = () => import ('../views/EditOrganizer.vue');
+const AuthComponent = () => import ('../components/AuthComponent.vue');
+const Help = () => import ('../views/Help.vue');
+const Favoris = () => import ('../views/Favoris.vue');
 
 const routes = [
+  // User Routes
+  {
+    path: '/help',
+    name: 'Help',
+    component: Help,
+  },
+
+  {
+    path: '/favoris',
+    name: 'Favoris',
+    component: Favoris,
+  },
   {
     path: '/',
-    component: Home, 
+    name: 'Home',
+    component: Home,
   },
-
   {
-    path: '/devenir-orgainsateur',
-    name: 'CreateOrganizer',
-    component: CreateOrganizer, 
+    path: '/token',
+    name: 'AuthComponent',
+    component: AuthComponent,
   },
-
-
-
-  {
-    path: '/edit-organiser',
-    name: 'EditOrganizer',
-    component: EditOrganizer, 
-  },
-
-  {
-    path: '/payment',
-    name: 'BookingPayment',
-    component: BookingPayment,  // La page de détails
-  },
-
-  {
-    path: '/events',
-    name: 'Event',
-    component: Event,  // La page de détails
-  },
-
-
-  {
-    path: '/confirmation',
-    name: 'EticketConfirmation',
-    component: EticketConfirmation,  // La page de détails
-  },
-
-
-  {
-    path: '/create-event',
-    name: 'EventCreation',
-    component: EventCreation,  // La page de détails
-  },
-
-
-
-  {
-    path: '/agent-management',
-    name: 'AgentManagement',
-    component: AgentManagement,  // La page de détails
-  },
-
-  {
-    path: '/report',
-    name: 'DetailedReports',
-    component: DetailedReports,  // La page de détails
-  },
-
-
   {
     path: '/profile',
     name: 'UserProfile',
     component: UserProfile,
   },
   {
-    path: '/edit-profile',
+    path: '/profile/edit',
     name: 'EditProfile',
-    component: EditProfile,  // La page de détails
+    component: EditProfile,
   },
-
   {
-    path: '/profile-organizer',
-    name: 'OrganizerProfile',
-    component: OrganizerProfile,  // La page de détails
+    path: '/events',
+    name: 'EventList',
+    component: Event,
   },
-
-
-
+  {
+    path: '/event/:id',
+    name: 'EventDetail',
+    component: EventDetailPage,
+    props: true, // Permet de passer l'ID comme prop
+  },
+  {
+    path: '/tourism/:id',
+    name: 'TourismDetail',
+    component: EventTourismDetails,
+    props: true,
+  },
+  {
+    path: '/payment',
+    name: 'BookingPayment',
+    component: BookingPayment,
+  },
+  {
+    path: '/confirmation',
+    name: 'EticketConfirmation',
+    component: EticketConfirmation,
+  },
+  {
+    path: '/messages',
+    name: 'MessagingSystem',
+    component: MessagingSytem,
+  },
   {
     path: '/scan',
     name: 'Scan',
-    component: Scan,  // La page de détails
+    component: Scan,
   },
-
   {
-    path: '/scan-history',
+    path: '/scan/history',
     name: 'ScanHistory',
-    component: ScanHistory,  // La page de détails
+    component: ScanHistory,
+  },
+  {
+    path: '/settings',
+    name: 'UserSettings',
+    component: Setting,
   },
 
-
+  // Organizer Routes
   {
-    path: '/edit-organizer',
+    path: '/organizer/dashboard',
     name: 'OrganizerDashboard',
-    component: OrganizerDashboard,  // La page de détails
+    component: OrganizerDashboard,
   },
-  
   {
-    path: '/setting',
-    name: 'Setting',
-    component: Setting,  // La page de détails
+    path: '/organizer/profile',
+    name: 'OrganizerProfile',
+    component: OrganizerProfile,
+  },
+  {
+    path: '/organizer/create',
+    name: 'CreateOrganizer',
+    component: CreateOrganizer,
+  },
+  {
+    path: '/organizer/edit',
+    name: 'EditOrganizer',
+    component: EditOrganizer,
+  },
+  {
+    path: '/organizer/events/create',
+    name: 'EventCreation',
+    component: EventCreation,
+  },
+  {
+    path: '/organizer/agent-management',
+    name: 'AgentManagement',
+    component: AgentManagement,
+  },
+  {
+    path: '/organizer/report',
+    name: 'DetailedReports',
+    component: DetailedReports,
   },
 
-
-  {
-    path: '/tourism',
-    name: 'EventTourismDetails',
-    component: EventTourismDetails,  // La page de détails
-  },
-
-
-  {
-    path: '/event/detail',
-    name: 'EventDetailPage',
-    component: EventDetailPage,  // La page de détails
-  },
-  
-  {
-    path: '/messages',
-    name: 'MessagingSytem',
-    component: MessagingSytem,  // La page de détails
-  },
-  
+  // Fallback Route (404)
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: NotFound,  // Page non trouvée
+    component: NotFound,
   },
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),

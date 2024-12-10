@@ -1,96 +1,168 @@
 <template>
-    <div class="event-container">
-      <!-- En-tête de l'événement -->
-      <div class="event-header">
-        <img src="https://via.placeholder.com/300" alt="Event cover">
-        <div class="header-buttons">
-          <button class="header-button" @click="goBack">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button class="header-button" @click="toggleLike">
-            <i :class="['fas', liked ? 'fa-heart' : 'fa-heart-broken']"></i>
-          </button>
-        </div>
-      </div>
-  
-      <!-- Détails de l'événement -->
-      <div class="event-details">
-        <span class="price-tag">150 F CFA</span>
-        <h1 class="event-title">RDV Abonnés</h1>
-  
-        <div class="event-info">
-          <div class="info-item">
-            <i class="fa fa-calendar"></i>
-            <span>Samedi, 9 Décembre 2023 • 14:58</span>
-          </div>
-          <div class="info-item">
-            <i class="fa fa-map-marker-alt"></i>
-            <span>Lomé, Togo</span>
-          </div>
-        </div>
-  
-        <!-- Description -->
-        <div class="description">
-          <h3>Description</h3>
-          <p>Une simple description de l'événement...</p>
-        </div>
-  
-        <!-- Tags -->
-        <div class="tags-section">
-          <h3>Tags</h3>
-          <div class="tags">
-            <span class="tag">Conférences</span>
-            <span class="tag">Networking</span>
-            <span class="tag">Entrepreneuriat</span>
-          </div>
-        </div>
-  
-        <!-- Organisateur -->
-        <div class="organizer">
-          <img src="https://via.placeholder.com/60x60" alt="Organizer" class="organizer-avatar">
-          <div class="organizer-info">
-            <div class="organizer-name">Développeur</div>
-            <div class="organizer-role">Organisateur</div>
-          </div>
-          <button class="follow-button" @click="toggleFollow">
-            {{ followText }}
-          </button>
-        </div>
-      </div>
-  
-      <!-- Barre inférieure -->
-      <div class="bottom-bar">
-        <button class="ticket-button">Réserver mon ticket</button>
-        <button class="share-button">
-          <i class="fas fa-share-alt"></i>
+  <div class="event-container">
+    <!-- En-tête de l'événement -->
+    <div class="event-header">
+      <img :src="event.image" :alt="event.title" />
+      <div class="header-buttons">
+        <button class="header-button" @click="goBack">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button class="header-button" @click="toggleLike">
+          <i :class="['fas', liked ? 'fa-heart' : 'fa-heart-broken']"></i>
         </button>
       </div>
     </div>
-  </template>
-  
-  
-  <script>
-  export default {
-    data() {
-      return {
-        followText: 'Suivre',
-      };
+
+    <!-- Détails de l'événement -->
+    <div class="event-details">
+      <span class="price-tag">150 F CFA</span>
+      <h1 class="event-title">{{ event.title }}</h1>
+
+      <div class="event-info">
+        <div class="info-item">
+          <i class="fa fa-calendar"></i>
+          <span>{{ event.date }}</span>
+        </div>
+        <div class="info-item">
+          <i class="fa fa-map-marker-alt"></i>
+          <span>Bénin</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="description">
+        <h3>Description</h3>
+        <p>{{ event.description }}</p>
+      </div>
+
+      <!-- Tags -->
+      <div class="tags-section" v-if="event.tags.length">
+        <h3>Tags</h3>
+        <div class="tags">
+          <span v-for="tag in event.tags" :key="tag" class="tag">{{ tag }}</span>
+        </div>
+      </div>
+
+      <!-- Organisateur -->
+      <div class="organizer">
+        <img :src="event.organizer.avatar" alt="Organizer" class="organizer-avatar" />
+        <div class="organizer-info">
+          <div class="organizer-name">{{ event.organizer.name }}</div>
+          <div class="organizer-role">{{ event.organizer.role }}</div>
+        </div>
+        <button class="follow-button" @click="toggleFollow">
+          {{ followText }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Barre inférieure -->
+    <div class="bottom-bar">
+      <button class="ticket-button">Réserver mon ticket</button>
+      <button class="share-button">
+        <i class="fas fa-share-alt"></i>
+      </button>
+    </div>
+  </div>
+</template>
+
+
+<script>
+import image01 from "@/assets/images/01.webp";
+import image02 from "@/assets/images/01.jpg";
+import image03 from "@/assets/images/02.jpg";
+
+const fallbackEvents = [
+  {
+    id: 1,
+    title: "Festival de Ouidah",
+    date: "Samedi, 16 Décembre 2023 à 14:00",
+    description: "Un événement culturel unique célébrant la diversité au Bénin.",
+    image: image01,
+    tags: ["Culture", "Musique"],
+    organizer: {
+      name: "Groupe Ariya",
+      role: "Organisateur Principal",
+      avatar: "https://via.placeholder.com/60x60?text=GA",
     },
-    methods: {
-      goBack() {
-        window.history.back();
+  },
+  {
+    id: 2,
+    title: "Marché des Arts Africains",
+    date: "Dimanche, 17 Décembre 2023 à 10:00",
+    description: "Explorez les œuvres d'artistes talentueux du Bénin.",
+    image: image02,
+    tags: ["Art", "Marché"],
+    organizer: {
+      name: "Groupe Ariya",
+      role: "Organisateur Principal",
+      avatar: "https://via.placeholder.com/60x60?text=GA",
+    },
+  },
+  {
+    id: 3,
+    title: "Conférence Tech Cotonou",
+    date: "Lundi, 18 Décembre 2023 à 09:00",
+    description: "Une conférence réunissant les meilleurs experts technologiques.",
+    image: image03,
+    tags: ["Technologie", "Conférence"],
+    organizer: {
+      name: "Groupe Ariya",
+      role: "Organisateur Principal",
+      avatar: "https://via.placeholder.com/60x60?text=GA",
+    },
+  },
+];
+
+export default {
+  props: ["id"],
+  data() {
+    return {
+      event: {
+        title: "",
+        date: "",
+        description: "",
+        image: "",
+        tags: [],
+        organizer: {
+          name: "",
+          role: "",
+          avatar: "",
+        },
       },
-      toggleFollow() {
-        this.followText = this.followText === 'Suivre' ? 'Suivi' : 'Suivre';
-      },
-      toggleLike() {
-        console.log('Bouton "like" cliqué');
+      liked: false,
+      followText: "Suivre",
+    };
+  },
+  methods: {
+    fetchEventDetails() {
+      console.log("ID reçu :", this.id);
+      const event = fallbackEvents.find((e) => e.id === parseInt(this.id));
+      if (event) {
+        console.log("Événement trouvé :", event);
+        this.event = event;
+      } else {
+        console.error("Événement introuvable !");
       }
-    }
-  };
-  </script>
-  
-  <style scoped>
+    },
+    goBack() {
+      window.history.back();
+    },
+    toggleFollow() {
+      this.followText = this.followText === "Suivre" ? "Suivi" : "Suivre";
+    },
+    toggleLike() {
+      this.liked = !this.liked;
+    },
+  },
+  mounted() {
+    this.fetchEventDetails();
+  },
+};
+</script>
+
+
+<style scoped>
   /* Global Styles */
   @import '../assets/style.css';
   /* Event Header */
@@ -181,9 +253,9 @@
   }
   
   .tag {
-    background-color: var(--secondary);
-    color: white;
+    background-color:#f0f0f0    ;
     padding: 5px 10px;
+    color: gray;
     border-radius: 20px;
   }
   

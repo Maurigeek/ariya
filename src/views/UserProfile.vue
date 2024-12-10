@@ -1,160 +1,110 @@
 <template>
-    <div>
-      <!-- Header Profil -->
-      <div class="profile-header">
-        <div class="profile-cover"></div>
-        <button class="edit-profile-btn" @click="editProfile" >
-          <i class="fas fa-pen"></i>
-          <span>Modifier</span>
-        </button>
-        <div class="user-info">
-          <img src="https://via.placeholder.com/300" alt="Profile" class="profile-avatar">
-          <h1 class="user-name">{{ user.name }}</h1>
-          <div class="user-location">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>{{ location }}</span>
-          </div>
-        </div>
-        <div class="stats-bar">
-          <div class="stat-item" v-for="(stat, index) in stats" :key="index">
-            <div class="stat-value">{{ stat.value }}</div>
-            <div class="stat-label">{{ stat.label }}</div>
-          </div>
+  <div>
+    <!-- Header Profil -->
+    <div class="profile-header">
+      <div class="profile-cover"></div>
+      <button class="edit-profile-btn" @click="editProfile">
+        <i class="fas fa-pen"></i>
+        <span>Modifier</span>
+      </button>
+      <div class="user-info">
+        <img :src="user.avatar" alt="Profile" class="profile-avatar" />
+        <h1 class="user-name">{{ user.name }}</h1>
+        <div class="user-location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{ user.location }}</span>
         </div>
       </div>
-  
-      <!-- Sections Profil -->
-      <div class="profile-sections">
-        <!-- Réservations -->
-        <div class="section-card">
-          <div class="section-header">
-            <h2 class="section-title">Mes réservations</h2>
-            <a href="#" class="section-link">Voir tout</a>
-          </div>
-          <div class="events-list">
-            <div class="event-item" v-for="(event, index) in reservations" :key="index">
-              <img :src="event.image" alt="Event" class="event-image">
-              <div class="event-details">
-                <h3>{{ event.title }}</h3>
-                <div class="event-date">{{ event.date }}</div>
-                <span
-                  class="event-status"
-                  :class="{ 'status-upcoming': event.status === 'upcoming', 'status-past': event.status === 'past' }"
-                >
-                  {{ event.status === 'upcoming' ? 'À venir' : 'Passé' }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Paramètres -->
-        <div class="section-card">
-          <div class="section-header">
-            <h2 class="section-title">Paramètres</h2>
-          </div>
-          <ul class="menu-list">
-            <li v-for="(item, index) in settings" :key="index">
-              <a href="#" class="menu-item">
-                <div class="menu-icon">
-                  <i :class="item.icon"></i>
-                </div>
-                <div class="menu-text">
-                  <div class="menu-label">{{ item.label }}</div>
-                  <div class="menu-description">{{ item.description }}</div>
-                </div>
-                <i class="fas fa-chevron-right"></i>
-              </a>
-            </li>
-          </ul>
+      <div class="stats-bar">
+        <div class="stat-item" v-for="(stat, index) in stats" :key="index">
+          <div class="stat-value">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        user: {
-          name: "John Doe",
 
-        },
-       location: "Chargement...",
+    <!-- Sections Profil -->
+    <div class="profile-sections">
+      <!-- Réservations -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">Mes réservations</h2>
+          <a href="#" class="section-link">Voir tout</a>
+        </div>
+        <div class="events-list">
+          <div class="event-item" v-for="(event, index) in reservations" :key="index">
+            <img :src="event.image" alt="Event" class="event-image" />
+            <div class="event-details">
+              <h3>{{ event.title }}</h3>
+              <div class="event-date">{{ event.date }}</div>
+              <span
+                class="event-status"
+                :class="{ 'status-upcoming': event.status === 'upcoming', 'status-past': event.status === 'past' }"
+              >
+                {{ event.status === 'upcoming' ? 'À venir' : 'Passé' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      
-        stats: [
-          { label: "Événements", value: 12 },
-          { label: "Réservations", value: 8 },
-          { label: "Favoris", value: 5 },
-        ],
-        reservations: [
-          {
-            title: "Festival des Arts et de la Culture",
-            date: "16 Déc, 2023",
-            status: "upcoming",
-            image: "https://via.placeholder.com/300",
-          },
-          {
-            title: "Tech Meetup Bénin",
-            date: "10 Déc, 2023",
-            status: "past",
-            image: "https://via.placeholder.com/300",
-          },
-        ],
-        settings: [
-          {
-            label: "Notifications",
-            description: "Gérer les alertes et rappels",
-            icon: "fas fa-bell",
-          },
-          {
-            label: "Paiements",
-            description: "Moyens de paiement & historique",
-            icon: "fas fa-wallet",
-          },
-          {
-            label: "Sécurité",
-            description: "Mot de passe & authentification",
-            icon: "fas fa-shield-alt",
-          },
-          {
-            label: "Support",
-            description: "Aide & assistance",
-            icon: "fas fa-headset",
-          },
-        ],
-      };
+      <!-- Paramètres -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">Paramètres</h2>
+        </div>
+        <ul class="menu-list">
+          <li v-for="(item, index) in settings" :key="index">
+            <a href="#" class="menu-item">
+              <div class="menu-icon">
+                <i :class="item.icon"></i>
+              </div>
+              <div class="menu-text">
+                <div class="menu-label">{{ item.label }}</div>
+                <div class="menu-description">{{ item.description }}</div>
+              </div>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
 
-    },
+<script>
+import feed from "@/data/feed";
+import { getLocation } from "@/utils/location";
 
-    mounted() {
-    this.getLocation();
+export default {
+  data() {
+    return {
+      user: feed.user,
+      stats: feed.stats,
+      reservations: feed.reservations,
+      settings: feed.settings,
+    };
   },
-    methods: {
-      editProfile() {
-        this.$router.push('/edit-profile');
-      },
-      getLocation() {
-      // Utilisation de l'API ip-api
-      fetch("http://ip-api.com/json")
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.city) {
-            this.location = data.city;
-          } else {
-            this.location = "Localisation indisponible";
-          }
-        })
-        .catch(() => {
-          this.location = "Erreur lors de la récupération de la localisation";
-        });
+  async mounted() {
+    await this.updateLocation();
+  },
+  methods: {
+    async updateLocation() {
+      try {
+        const location = await getLocation(); // Appelle la fonction depuis utils
+        this.user.location = location; // Met à jour la localisation
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de la localisation:", error);
+      }
     },
+    editProfile() {
+      this.$router.push("/edit-profile");
     },
-  };
-  </script>
-  
-  
+  },
+};
+</script>
+
+
   <style scoped>
   /* Copiez ici le style CSS donné dans votre fichier HTML */
   

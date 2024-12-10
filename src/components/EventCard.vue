@@ -1,3 +1,5 @@
+
+
 <template>
   <div>
     <div class="container-fluid p-3">
@@ -9,7 +11,9 @@
           class="col-md-3 mb-4"
         >
           <div class="event-card">
-            <img :src="event.image" alt="Event" class="event-image" />
+            <div class="image-container">
+              <img :src="event.image" :alt="'Image de ' + event.title" class="responsive-image" />
+            </div>
             <div class="event-content">
               <h2 class="event-title">{{ event.title }}</h2>
               <div class="event-date">
@@ -25,7 +29,12 @@
                   {{ tag }}
                 </span>
               </div>
-              <a class="ticket-button text-center" :href="event.link">Réserver mon ticket</a>
+              <router-link
+                class="ticket-button text-center"
+                :to="{ name: 'EventDetail', params: { id: event.id } }"
+              >
+                Réserver mon ticket
+              </router-link>
             </div>
           </div>
         </div>
@@ -34,54 +43,87 @@
   </div>
 </template>
 
-
 <script>
-import axios from "axios";
+import eventData from "@/data/feed_eventdata";
 
 export default {
   name: "EventList",
   data() {
     return {
-      events: [], // Tableau des événements initialisé à vide
+      events: eventData, // Utilisez les données importées
     };
-  },
-  methods: {
-    async fetchEvents() {
-      try {
-        // Appel de l'API JSONPlaceholder
-        const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
-        this.events = response.data.slice(0, 20).map((item) => ({
-          title: item.title, // Utilise le titre fourni par l'API
-          date: this.generateRandomDate(), // Génère une date aléatoire
-          tags: ["Général", "Événement"], // Exemple de tags fixes
-          image: `https://via.placeholder.com/300?text=${item.id}`, // Image aléatoire
-          link: `/details/${item.id}`, // Lien vers un détail fictif
-        }));
-      } catch (error) {
-        console.error("Erreur lors de la récupération des événements :", error);
-      }
-    },
-    generateRandomDate() {
-      // Génère une date future aléatoire pour simuler un événement
-      const start = new Date();
-      const end = new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
-      const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-      return randomDate.toLocaleString("fr-FR", {
-        weekday: "short",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    },
-  },
-  mounted() {
-    this.fetchEvents(); // Récupère les événements au montage du composant
   },
 };
 </script>
 
 <style scoped>
+/* Style pour la carte d'événement */
+.event-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
 
+.event-card:hover {
+  transform: translateY(-5px);
+}
+
+.image-container {
+  width: 100%;
+  height: 200px; /* Hauteur fixe pour toutes les images */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.responsive-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Les images remplissent l'espace de manière uniforme */
+}
+
+.event-content {
+  padding: 1rem;
+}
+
+.event-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-date {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.tag-container {
+  margin-bottom: 1rem;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.ticket-button {
+  display: inline-block;
+  background-color:--primary;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ticket-button:hover {
+  background-color: #0056b3;
+}
 </style>

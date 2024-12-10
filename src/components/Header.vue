@@ -1,35 +1,17 @@
-
 <template>
   <div>
-   
-
     <!-- Header -->
     <header class="app-header">
       <div class="top-bar">
-        <!-- Logo and App Name -->
+        <!-- Logo -->
         <div class="app-name">
-       <!-- <img src="" alt="Logo" class="logo" />-->
-          <h2 class="name">Ariya</h2>
+          <img :src="imageSrc" alt="Logo" class="logo" />
         </div>
 
         <!-- Location Info -->
         <div class="location-info">
           <i class="fa fa-map-marker-alt"></i>
           <span class="city-name">{{ location }}</span>
-        </div>
-
-        <!-- User Actions -->
-        <div class="user-actions">
-          <span class="greeting">Augustin</span>
-          <div class="dropdown">
-            <a href="/profile"><i class="fa fa-user-alt" @click="toggleDropdown"></i>
-            <div class="dropdown-menu" v-if="dropdownVisible">
-              <a href="#" class="dropdown-item">Profil</a>
-              <a href="#" class="dropdown-item">Paramètres</a>
-              <a href="#" class="dropdown-item">Déconnexion</a>
-            </div>
-          </a>
-          </div>
         </div>
       </div>
 
@@ -47,21 +29,20 @@
 </template>
 
 <script>
+import logo from "@/assets/images/logo.png";
+
 export default {
   name: "FloatingChat",
   data() {
     return {
-      dropdownVisible: false,
       location: "Chargement...",
+      imageSrc: logo, // URL de l'image
     };
   },
   mounted() {
     this.getLocation();
   },
   methods: {
-    toggleDropdown() {
-      this.dropdownVisible = !this.dropdownVisible;
-    },
     getLocation() {
       // Utilisation de l'API ip-api
       fetch("http://ip-api.com/json")
@@ -82,8 +63,6 @@ export default {
 </script>
 
 <style scoped>
-/* Global styles */
-
 /* Header */
 .app-header {
   background: white;
@@ -94,92 +73,43 @@ export default {
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Top Bar */
 .top-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Garde le logo et la localisation à chaque extrémité */
   align-items: center;
 }
 
-.app-name {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo {
-  width: 40px;
+/* Logo Section */
+.app-name .logo {
   height: 40px;
+  object-fit: contain;
 }
 
+/* Location Info Section */
 .location-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.city-name {
   font-size: 1rem;
-  color: var(--text);
+  color: #555;
 }
 
-.user-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.greeting {
-  font-size: 0.9rem;
-  color: var(--gray);
-}
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown i {
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: var(--text);
-}
-
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  z-index: 200;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: var(--text);
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-.dropdown-item:hover {
-  background: var(--background);
-  border-radius: 5px;
+.location-info .fa-map-marker-alt {
+  color: #007bff;
+  font-size: 1.2rem;
 }
 
 /* Search Bar */
 .search-bar {
   position: relative;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .search-input {
   width: 100%;
   padding: 0.8rem 2.5rem;
-  border: none;
-  background: var(--background);
+  border: 1px solid #ddd;
   border-radius: 12px;
   font-size: 1rem;
 }
@@ -189,10 +119,47 @@ export default {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray);
+  color: #aaa;
 }
 
 .search-input:focus {
-  outline: 2px solid var(--primary);
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: row; /* Garde les éléments en ligne */
+    justify-content: space-between;
+    padding: 0.5rem;
+  }
+
+  .app-name .logo {
+    height: 30px;
+  }
+
+  .location-info {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    flex-wrap: nowrap; /* Empêche les éléments de passer à la ligne */
+    gap: 1rem;
+  }
+
+  .app-name .logo {
+    height: 30px;
+  }
+
+  .location-info .city-name {
+    font-size: 0.85rem;
+  }
+
+  .search-bar {
+    margin-top: 0.5rem;
+  }
 }
 </style>

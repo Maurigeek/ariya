@@ -81,7 +81,7 @@ export default {
   right: 20px;
   width: 60px;
   height: 60px;
-  background-color: #4caf50;
+  background-color: --secondary;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -113,7 +113,7 @@ export default {
 
 /* En-tête de chat */
 .chat-header {
-  background-color: #4caf50;
+  background-color: --primary;
   color: white;
   padding: 10px;
   font-weight: bold;

@@ -21,4 +21,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  proxy: {
+    '/api': {
+      target: 'https://pub-za.appcubecloud.com',
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api/, ''),
+    },
+  },
 })
+
+

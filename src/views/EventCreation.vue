@@ -1,211 +1,220 @@
+
 <template>
-  <div>
-    <!-- Header -->
-    <header class="header">
-      <div class="header-left">
-        <button class="back-button" @click="goBack">
-          <i class="fas fa-arrow-left"></i>
-        </button>
-        <div>
-          <h1 class="header-title">{{ stepTitles[activeStep - 1] }}</h1>
-          <div class="progress-text">Étape {{ activeStep }} sur 3</div>
+    <div>
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="back-button" @click="goBack">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <div>
+            <h1 class="header-title">{{ stepTitles[activeStep - 1] }}</h1>
+            <div class="progress-text">Étape {{ activeStep }} sur 3</div>
+          </div>
         </div>
+      </header>
+  
+      <!-- Barre d'étapes -->
+      <div class="step-bar">
+        <div class="step" :class="{ active: activeStep >= 1 }"></div>
+        <div class="step" :class="{ active: activeStep >= 2 }"></div>
+        <div class="step" :class="{ active: activeStep >= 3 }"></div>
       </div>
-    </header>
-
-    <!-- Barre d'étapes -->
-    <div class="step-bar">
-      <div class="step" :class="{ active: activeStep >= 1 }"></div>
-      <div class="step" :class="{ active: activeStep >= 2 }"></div>
-      <div class="step" :class="{ active: activeStep >= 3 }"></div>
-    </div>
-    <div v-if="activeStep === 1">
-    <!-- Étape 1 : Créer un événement -->
-    <div class="form-section">
-      <h2 class="section-title">Informations de base</h2>
-      <div class="form-group">
-        <label class="form-label">Titre de l'événement</label>
-        <input v-model="event.title" type="text" class="form-input" placeholder="Ex: Festival des Arts et de la Culture" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea v-model="event.description" class="form-input" rows="4" placeholder="Décrivez votre événement..."></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Date et lieu</label>
-        <div class="date-time-picker">
-          <input v-model="event.date" type="date" class="form-input" />
-          <input v-model="event.time" type="time" class="form-input" />
-        </div>
-        <input v-model="event.location" type="text" class="form-input" placeholder="Lieu" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Sélectionnez un lieu sur la carte</label>
-        <div id="map" class="map-container"></div>
-        <p class="selected-location">
-          <strong>Adresse : </strong> {{ event.address }}
-        </p>
-      </div>
-    </div>
-  </div>
-
-    <div v-if="activeStep === 2">
-      <!-- Étape 2 : Configuration des billets -->
-      <div class="form-section">
-        <h2 class="section-title">Types de billets</h2>
-        <div v-for="(ticket, index) in tickets" :key="index" class="ticket-type">
-          <h3>{{ ticket.name }}</h3>
+  
+      <div v-if="activeStep === 1">
+        <!-- Étape 1 : Créer un événement -->
+        <div class="form-section">
+          <h2 class="section-title">Informations de base</h2>
+          <div class="form-group">
+            <label class="form-label">Titre de l'événement</label>
+            <input v-model="event.title" type="text" class="form-input" placeholder="Ex: Festival des Arts et de la Culture" />
+          </div>
           <div class="form-group">
             <label class="form-label">Description</label>
-            <input v-model="ticket.description" type="text" class="form-input" />
+            <textarea v-model="event.description" class="form-input" rows="4" placeholder="Décrivez votre événement..."></textarea>
           </div>
-          <div class="row">
-            <div class="col">
-              <label class="form-label">Prix</label>
-              <input v-model.number="ticket.price" type="number" class="form-input" />
-            </div>
-            <div class="col">
-              <label class="form-label">Quantité</label>
-              <input v-model.number="ticket.quantity" type="number" class="form-input" />
+          <div class="form-group">
+            <label class="form-label">Date de début</label>
+            <input v-model="event.startDate" type="datetime-local" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de fin</label>
+            <input v-model="event.endDate" type="datetime-local" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lieu</label>
+            <input v-model="event.location" type="text" class="form-input" placeholder="Lieu" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Image de l'événement</label>
+            <input type="file" class="form-input" @change="onImageChange" />
+            <div v-if="previewImage" class="image-preview">
+              <img :src="previewImage" alt="Prévisualisation" />
             </div>
           </div>
-        </div>
-        <button class="add-button btn btn-light p-3 text-dark" @click="addTicketType">
-          <i class="fas fa-plus"></i> Ajouter un type
-        </button>
-      </div>
-    </div>
-
-    <div v-if="activeStep === 3">
-      <!-- Étape 3 : Promotion -->
-      <div class="form-section">
-        <h2 class="section-title">Partager l'événement</h2>
-        <div class="share-grid">
-          <div v-for="platform in sharingPlatforms" :key="platform.label" class="share-item" @click="shareEvent(platform)">
-            <div :class="['share-icon', platform.class]">
-              <i :class="platform.icon"></i>
-            </div>
-            <span class="share-label">{{ platform.label }}</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Lien de partage</label>
-          <input v-model="event.link" type="text" class="form-input" readonly />
         </div>
       </div>
+  
+      <div v-if="activeStep === 2">
+        <!-- Étape 2 : Configuration des billets -->
+        <div class="form-section">
+          <h2 class="section-title">Types de billets</h2>
+          <div v-for="(ticket, index) in event.tickets" :key="index" class="ticket-type">
+            <h3>{{ ticket.name }}</h3>
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <input v-model="ticket.description" type="text" class="form-input" />
+            </div>
+            <div class="row">
+              <div class="col">
+                <label class="form-label">Prix</label>
+                <input v-model.number="ticket.price" type="number" class="form-input" />
+              </div>
+              <div class="col">
+                <label class="form-label">Quantité</label>
+                <input v-model.number="ticket.quantity" type="number" class="form-input" />
+              </div>
+            </div>
+          </div>
+          <button class="add-button btn btn-light p-3 text-dark" @click="addTicketType">
+            <i class="fas fa-plus"></i> Ajouter un type
+          </button>
+        </div>
+      </div>
+  
+      <div v-if="activeStep === 3">
+        <!-- Étape 3 : Promotion -->
+        <div class="form-section">
+          <h2 class="section-title">Partager l'événement</h2>
+          <div class="share-grid">
+            <div v-for="platform in sharingPlatforms" :key="platform.label" class="share-item" @click="shareEvent(platform)">
+              <div :class="['share-icon', platform.class]">
+                <i :class="platform.icon"></i>
+              </div>
+              <span class="share-label">{{ platform.label }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lien de partage</label>
+            <input v-model="event.link" type="text" class="form-input" readonly />
+          </div>
+        </div>
+      </div>
+  
+      <!-- Boutons de navigation -->
+      <div class="bottom-bar">
+        <button v-if="activeStep > 1" @click="goToPreviousStep" class="action-button save-draft">Retour</button>
+        <button v-if="activeStep < 3" @click="goToNextStep" class="action-button continue">Suivant</button>
+        <button v-if="activeStep === 3" @click="saveEvent" class="action-button publish-button">Publier</button>
+      </div>
     </div>
-
-    <!-- Boutons de navigation -->
-    <div class="bottom-bar">
-      <button v-if="activeStep > 1" @click="goToPreviousStep" class="action-button save-draft">Retour</button>
-      <button v-if="activeStep < 3" @click="goToNextStep" class="action-button continue">Suivant</button>
-      <button v-if="activeStep === 3" @click="saveEvent" class="action-button publish-button">Publier</button>
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      activeStep: 1,
-      stepTitles: ["Créer un événement", "Configuration des billets", "Promotion"],
-      event: {
-        title: "",
-        description: "",
-        date: "",
-        time: "",
-        location: "",
-        link: "https://ariya.app/example",
-        location: '',
-        address: '', // Adresse sélectionnée via la carte
-        lat: null, // Latitude sélectionnée
-        lng: null, // Longitude sélectionnée
-      },
-      map: null,
-      marker: null,
-
-      mounted() {
-    if (this.activeStep === 1) {
-      this.initMap();
-    }
-  },
-      tickets: [
-        {
-          name: "Pass Standard",
-          description: "Accès général",
-          price: 5000,
-          quantity: 100,
+  </template>
+  
+  <script>
+  import axios from "axios";
+  
+  export default {
+    data() {
+      return {
+        activeStep: 1,
+        stepTitles: ["Créer un événement", "Configuration des billets", "Promotion"],
+        event: {
+          title: "",
+          description: "",
+          startDate: "",
+          endDate: "",
+          location: "",
+          image: null,
+          tickets: [
+            {
+              name: "Standard",
+              description: "Accès général",
+              price: 0,
+              quantity: 0,
+            },
+          ],
+          link: "",
+          organizerId: "",
+          categoryId: "",
         },
-      ],
-      sharingPlatforms: [
-        { label: "WhatsApp", class: "whatsapp", icon: "fab fa-whatsapp" },
-        { label: "Facebook", class: "facebook", icon: "fab fa-facebook-f" },
-        { label: "Twitter", class: "twitter", icon: "fab fa-twitter" },
-        { label: "Telegram", class: "telegram", icon: "fab fa-telegram-plane" },
-      ],
-    };
-  },
-  methods: {
-    goBack() {
-      history.back();
+        previewImage: null,
+        sharingPlatforms: [
+          { label: "WhatsApp", class: "whatsapp", icon: "fab fa-whatsapp" },
+          { label: "Facebook", class: "facebook", icon: "fab fa-facebook-f" },
+          { label: "Twitter", class: "twitter", icon: "fab fa-twitter" },
+          { label: "Telegram", class: "telegram", icon: "fab fa-telegram-plane" },
+        ],
+      };
     },
-    goToPreviousStep() {
-      if (this.activeStep > 1) this.activeStep--;
+    methods: {
+      goBack() {
+        history.back();
+      },
+      goToPreviousStep() {
+        if (this.activeStep > 1) this.activeStep--;
+      },
+      goToNextStep() {
+        if (this.activeStep < 3) this.activeStep++;
+      },
+      addTicketType() {
+        this.event.tickets.push({
+          name: "",
+          description: "",
+          price: 0,
+          quantity: 0,
+        });
+      },
+      shareEvent(platform) {
+        alert(`Partager via ${platform.label}`);
+      },
+      onImageChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+          this.event.image = file;
+          this.previewImage = URL.createObjectURL(file);
+        }
+      },
+      async saveEvent() {
+        try {
+          const formData = new FormData();
+          formData.append("title", this.event.title);
+          formData.append("description", this.event.description);
+          formData.append("startDate", this.event.startDate);
+          formData.append("endDate", this.event.endDate);
+          formData.append("location", this.event.location);
+          formData.append("image", this.event.image);
+          formData.append("tickets", JSON.stringify(this.event.tickets));
+          formData.append("organizerId", this.event.organizerId);
+          formData.append("categoryId", this.event.categoryId);
+  
+          const response = await axios.post("https://api.example.com/events", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+  
+          alert("Événement publié avec succès !");
+          this.event.link = response.data.link; // Mise à jour du lien de partage
+        } catch (error) {
+          console.error("Erreur lors de la publication de l'événement :", error);
+          alert("Une erreur s'est produite lors de la publication de l'événement.");
+        }
+      },
     },
-    goToNextStep() {
-      if (this.activeStep < 3) this.activeStep++;
-    },
-    addTicketType() {
-      this.tickets.push({
-        name: "Nouveau type",
-        description: "",
-        price: 0,
-        quantity: 0,
-      });
-    },
-    shareEvent(platform) {
-      alert(`Partager via ${platform.label}`);
-    },
-    saveEvent() {
-      console.log("Événement sauvegardé :", this.event, this.tickets);
-      alert("Événement publié avec succès !");
-    },
-  },
-  initMap() {
-      // Initialiser la carte Leaflet
-      this.map = L.map('map').setView([6.3654, 2.4183], 13); // Centré sur Cotonou
-
-      // Ajouter des tuiles de carte (OpenStreetMap)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
-
-      // Ajouter un marqueur cliquable
-      this.map.on('click', this.onMapClick);
-    },
-    onMapClick(e) {
-      // Ajouter ou déplacer le marqueur
-      if (this.marker) {
-        this.map.removeLayer(this.marker);
-      }
-      this.marker = L.marker(e.latlng).addTo(this.map);
-
-      // Mettre à jour les données de l'événement
-      this.event.lat = e.latlng.lat;
-      this.event.lng = e.latlng.lng;
-
-      // Récupérer l'adresse via une API géocodage (facultatif, nécessite une API comme Nominatim ou Google Maps)
-      this.event.address = `Latitude: ${e.latlng.lat}, Longitude: ${e.latlng.lng}`;
-    },
-};
-</script>
-
+  };
+  </script>
+ 
 <style scoped>
 /* Styles combinés des trois étapes */
 @import 'leaflet/dist/leaflet.css';
 
 
+.image-preview img {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
 .header {
             background: white;
             padding: 1rem;

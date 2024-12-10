@@ -1,156 +1,130 @@
+
+
 <template>
-    <div>
-      <!-- Header Section -->
-      <div class="header-section">
-        <img :src="galleryImages[currentImageIndex]" alt="Event" class="header-image" />
-        <div class="top-actions">
-          <button class="action-button" @click="goBack">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button class="action-button" @click="toggleFavorite">
-            <i :class="isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
-          </button>
-        </div>
-        <div class="header-overlay">
-          <div class="image-gallery">
-            <div
-              v-for="(image, index) in galleryImages"
-              :key="index"
-              :class="['gallery-dot', { active: currentImageIndex === index }]"
-              @click="currentImageIndex = index"
-            ></div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Content Section -->
-      <div class="content-section">
-        <div class="title-row">
-          <h1 class="main-title">{{ event.title }}</h1>
-          <span class="price-tag">{{ event.price }}</span>
-        </div>
-  
-        <div class="info-row">
-          <div class="info-item">
-            <i class="far fa-calendar"></i>
-            <span>{{ event.date }}</span>
-          </div>
-          <div class="info-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>{{ event.location }}</span>
-          </div>
-        </div>
-  
-        <div class="tag-container">
-          <span class="tag" v-for="(tag, index) in event.tags" :key="index">
-            {{ tag }}
-          </span>
-        </div>
-  
-        <!-- Tabs -->
-        <div class="details-tabs">
-          <div
-            v-for="tab in tabs"
-            :key="tab"
-            :class="['tab', { active: activeTab === tab }]"
-            @click="activeTab = tab"
-          >
-            {{ tab }}
-          </div>
-        </div>
-  
-        <!-- Tab Content -->
-        <div v-if="activeTab === 'Détails'" class="description">
-          <h2 class="section-title">À propos</h2>
-          <p>{{ event.description }}</p>
-        </div>
-        <div v-else-if="activeTab === 'Avis'" class="ratings-section">
-          <h2 class="section-title">Avis ({{ event.reviews.length }})</h2>
-          <div class="rating-stars">
-            <i class="fas fa-star" v-for="star in fullStars" :key="star"></i>
-            <i class="fas fa-star-half-alt" v-if="hasHalfStar"></i>
-            <span>{{ event.rating }}</span>
-          </div>
-          <div
-            v-for="(review, index) in event.reviews"
-            :key="index"
-            class="review"
-          >
-            <div class="review-header">
-              <span class="review-author">{{ review.author }}</span>
-              <span class="review-date">{{ review.date }}</span>
-            </div>
-            <p>{{ review.text }}</p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Action Bar -->
-      <div class="action-bar">
-        <button class="share-button">
-          <i class="fas fa-share-alt"></i>
+  <div>
+    <div class="header-section">
+      <img :src="galleryImages[currentImageIndex]" alt="Destination" class="header-image" />
+      <div class="top-actions">
+        <button class="action-button" @click="goBack">
+          <i class="fas fa-arrow-left"></i>
         </button>
-        <button class="book-button">Réserver maintenant</button>
+        <button class="action-button" @click="toggleFavorite">
+          <i :class="isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
+        </button>
+      </div>
+      <div class="header-overlay">
+        <div class="image-gallery">
+          <div
+            v-for="(image, index) in galleryImages"
+            :key="index"
+            :class="['gallery-dot', { active: currentImageIndex === index }]"
+            @click="currentImageIndex = index"
+          ></div>
+        </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        // Gallery
-        galleryImages: [
-          "https://via.placeholder.com/300",
-          "https://via.placeholder.com/300",
-          "https://via.placeholder.com/300",
-        ],
-        currentImageIndex: 0,
-        isFavorite: false,
-  
-        // Event Data
-        event: {
-          title: "Festival des Arts et de la Culture",
-          price: "5000 FCFA",
-          date: "16 Déc, 19:00",
-          location: "Cotonou, Bénin",
-          tags: ["Culture", "Art", "Festival"],
-          description:
-            "Un festival unique célébrant l'art et la culture béninoise. Découvrez les talents locaux, participez à des ateliers créatifs et immergez-vous dans la riche histoire du Bénin.",
-          rating: 4.5,
-          reviews: [
-            {
-              author: "Marie K.",
-              date: "Il y a 2 jours",
-              text: "Une expérience culturelle extraordinaire ! Les artistes étaient talentueux et l'ambiance était magique.",
-            },
-          ],
-        },
-  
-        // Tabs
-        tabs: ["Détails", "Avis", "Photos"],
-        activeTab: "Détails",
-      };
+
+    <div class="content-section">
+      <div class="title-row">
+        <h1 class="main-title">{{ destination.name }}</h1>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{ destination.location }}</span>
+        </div>
+      </div>
+
+      <div class="tag-container">
+        <span class="tag" v-for="(tag, index) in destination.tags" :key="index">
+          {{ tag }}
+        </span>
+      </div>
+
+      <!-- Tabs -->
+      <div class="details-tabs">
+        <div
+          v-for="tab in tabs"
+          :key="tab"
+          :class="['tab', { active: activeTab === tab }]"
+          @click="activeTab = tab"
+        >
+          {{ tab }}
+        </div>
+      </div>
+
+      <!-- Tab Content -->
+      <div v-if="activeTab === 'Détails'" class="description">
+        <h2 class="section-title">À propos</h2>
+        <p>{{ destination.description }}</p>
+      </div>
+      <div v-else-if="activeTab === 'Avis'" class="ratings-section">
+        <h2 class="section-title">Avis ({{ destination.reviews.length }})</h2>
+        <div
+          v-for="(review, index) in destination.reviews"
+          :key="index"
+          class="review"
+        >
+          <div class="review-header">
+            <span class="review-author">{{ review.author }}</span>
+            <span class="review-date">{{ review.date }}</span>
+          </div>
+          <p>{{ review.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import feedData from "@/data/fallbackDestinations";
+
+export default {
+  props: ["id"],
+  data() {
+    return {
+      isFavorite: false,
+      destination: {}, // Stocke les détails de la destination
+      galleryImages: [], // Stocke les images de la galerie
+      currentImageIndex: 0, // Index de l'image actuelle
+      tabs: ["Détails", "Avis"], // Onglets pour la navigation
+      activeTab: "Détails", // Onglet actif par défaut
+    };
+  },
+  methods: {
+    fetchDestinationDetails() {
+      const destination = feedData.find((dest) => dest.id === parseInt(this.id));
+      if (destination) {
+        this.destination = destination;
+        this.galleryImages = destination.gallery; // Charge les images de la galerie
+      } else {
+        console.error("Destination introuvable");
+        this.destination = {
+          name: "Destination introuvable",
+          location: "Inconnu",
+          tags: [],
+          description: "Les détails de cette destination ne sont pas disponibles.",
+          gallery: ["https://via.placeholder.com/300"],
+          reviews: [],
+        };
+        this.galleryImages = this.destination.gallery;
+      }
     },
-    computed: {
-      fullStars() {
-        return Math.floor(this.event.rating);
-      },
-      hasHalfStar() {
-        return this.event.rating % 1 > 0;
-      },
+    goBack() {
+      window.history.back();
     },
-    methods: {
-      goBack() {
-        window.history.back();
-      },
-      toggleFavorite() {
-        this.isFavorite = !this.isFavorite;
-      },
+    toggleFavorite() {
+      this.isFavorite = !this.isFavorite;
     },
-  };
-  </script>
-  
+  },
+  mounted() {
+    this.fetchDestinationDetails();
+  },
+};
+</script>
+
+
   <style scoped>
 
 
