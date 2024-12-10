@@ -98,7 +98,7 @@ export default {
       }
     },
     editProfile() {
-      this.$router.push("/edit-profile");
+      this.$router.push("/profile/edit");
     },
   },
 };
