@@ -70,13 +70,20 @@
       </div>
     </div>
   </div>
+  <BottomNav />
+
 </template>
 
 <script>
 import feed from "@/data/feed";
 import { getLocation } from "@/utils/location";
+import BottomNav from '../components/BottomNav.vue';
+
 
 export default {
+  components: {
+      BottomNav
+    },
   data() {
     return {
       user: feed.user,
