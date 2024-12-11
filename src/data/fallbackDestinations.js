@@ -1,136 +1,78 @@
-import image01 from "@/assets/images/01.webp";
-import image02 from "@/assets/images/02.jpg";
-import image03 from "@/assets/images/03.jpg";
+import image01 from "@/assets/images/tourism1.jpg";
+import image02 from "@/assets/images/tourism2.jpg";
+import image03 from "@/assets/images/tourism3.jpg";
+import image04 from "@/assets/images/tourism4.jpg";
+import image05 from "@/assets/images/tourism5.jpg";
 
 export default [
   {
     id: 1,
-    name: "Chutes de Tanougou",
+    name: "Parc National de la Pendjari",
     location: "Atacora, Bénin",
-    tags: ["Nature", "Aventure"],
-    description: "Un lieu magnifique avec des chutes d'eau entourées de végétation luxuriante.",
+    tags: ["Nature", "Faune", "Aventure"],
+    description:
+      "Le Parc National de la Pendjari est l'une des plus grandes réserves naturelles d'Afrique de l'Ouest. Il abrite une grande diversité de faune, incluant des éléphants, des lions, des buffles, des antilopes, et de nombreuses espèces d'oiseaux. Situé dans le nord du Bénin, ce parc offre des paysages époustouflants avec ses savanes et ses montagnes environnantes. Les safaris y sont très prisés, permettant aux visiteurs de s'immerger dans la nature sauvage tout en observant les animaux dans leur habitat naturel. La Pendjari est également un site important pour la conservation des espèces menacées et participe à des projets de préservation de la biodiversité.",
     gallery: [image01, image02, image03],
     reviews: [
-      { author: "Jean Dupont", date: "Il y a 2 jours", text: "Un endroit magique pour les amoureux de la nature !" },
-      { author: "Alice M.", date: "Il y a 1 semaine", text: "Une expérience inoubliable avec mes amis." },
-      { author: "Koffi A.", date: "Il y a 3 jours", text: "Les chutes sont magnifiques et très paisibles." },
+      { author: "Augustin", date: "Il y a 3 jours", text: "Une expérience exceptionnelle ! Voir les éléphants en liberté, c'était magique." },
+      { author: "Maurias", date: "Il y a 1 semaine", text: "Un safari inoubliable dans un cadre naturel préservé." },
+      { author: "Gilberte", date: "Il y a 2 jours", text: "Les paysages sont magnifiques, et la faune est incroyable." },
     ],
   },
   {
     id: 2,
-    name: "Route des Pêches",
-    location: "Cotonou, Bénin",
-    tags: ["Plage", "Loisirs"],
-    description: "Une route pittoresque longeant l'océan Atlantique avec des plages idylliques.",
+    name: "Musée des Bio Guera",
+    location: "Savé, Bénin",
+    tags: ["Culture", "Histoire"],
+    description:
+      "Le Musée des Bio Guera retrace l'histoire fascinante des guerriers Bio Guera, qui ont lutté contre l'occupation coloniale française dans le nord du Bénin à la fin du XIXe siècle. Ce musée, situé dans la ville de Savé, met en lumière les exploits de ces figures historiques qui ont marqué l'histoire du Bénin par leur bravoure et leur résistance. Vous y découvrirez des objets historiques, des récits de batailles et des expositions consacrées aux traditions locales.",
     gallery: [image02, image03, image01],
     reviews: [
-      { author: "Marie Claire", date: "Il y a 5 jours", text: "Idéal pour une escapade relaxante en bord de mer." },
-      { author: "Pierre L.", date: "Il y a 2 semaines", text: "Parfait pour une promenade au coucher du soleil." },
-      { author: "Fatima D.", date: "Il y a 4 jours", text: "Les plages sont belles et bien entretenues." },
+      { author: "Marie Claire", date: "Il y a 1 jour", text: "Une visite émouvante qui nous rappelle l'importance de notre histoire." },
+      { author: "Augustin", date: "Il y a 4 jours", text: "Le musée est bien organisé et les guides sont passionnants." },
+      { author: "Maurias", date: "Il y a 2 semaines", text: "Un hommage touchant à ces héros du Bénin." },
     ],
   },
   {
     id: 3,
-    name: "Parc National de la Pendjari",
-    location: "Pendjari, Bénin",
-    tags: ["Nature", "Safari"],
-    description: "Explorez la faune africaine dans l'un des parcs les plus riches en biodiversité du Bénin.",
-    gallery: [image03, image01, image02],
+    name: "Statue des Amazones du Dahomey",
+    location: "Cotonou, Bénin",
+    tags: ["Histoire", "Culture"],
+    description:
+      "La Statue des Amazones du Dahomey rend hommage aux célèbres femmes guerrières du Royaume du Dahomey, une armée féminine redoutée qui a joué un rôle crucial dans l'histoire précoloniale du Bénin. Ces femmes, connues pour leur bravoure et leur loyauté, défendaient le roi du Dahomey contre les ennemis. Aujourd'hui, la statue est un symbole de force et de résilience, commémorant un aspect unique de l'histoire africaine.",
+    gallery: [image03, image02, image03],
     reviews: [
-      { author: "Jacques T.", date: "Il y a 1 jour", text: "Un safari incroyable avec des guides experts !" },
-      { author: "Linda E.", date: "Il y a 1 semaine", text: "Les animaux sont magnifiques et en pleine nature." },
-      { author: "Pascal N.", date: "Il y a 3 jours", text: "J'ai adoré les paysages et la diversité des espèces." },
+      { author: "Augustin", date: "Il y a 5 jours", text: "Un symbole puissant du courage des femmes dans l'histoire africaine." },
+      { author: "Fatima D.", date: "Il y a 1 semaine", text: "Impressionnant ! Un morceau d'histoire que tout le monde devrait connaître." },
+      { author: "Gilberte", date: "Il y a 3 jours", text: "Une statue monumentale qui inspire le respect et l'admiration." },
     ],
   },
   {
     id: 4,
-    name: "Palais Royal d’Abomey",
-    location: "Abomey, Bénin",
-    tags: ["Histoire", "Culture"],
-    description: "Découvrez l'histoire fascinante des rois du Dahomey dans ce site classé au patrimoine mondial.",
-    gallery: [image01, image03, image02],
+    name: "Ganvié",
+    location: "Lac Nokoué, Bénin",
+    tags: ["Culture", "Tradition", "Nature"],
+    description:
+      "Ganvié, surnommée la 'Venise de l'Afrique', est un village lacustre situé sur le lac Nokoué, non loin de Cotonou. Ce village unique est construit entièrement sur l'eau, avec des maisons sur pilotis. Ganvié est un témoignage vivant de l'ingéniosité et de l'adaptation humaine à l'environnement. Le village a été fondé au XVIIe siècle par le peuple Tofinu, qui fuyait les chasseurs d'esclaves. Aujourd'hui, Ganvié est une destination touristique prisée pour son cadre unique et son histoire fascinante.",
+    gallery: [image04, image03, image01],
     reviews: [
-      { author: "Mariam K.", date: "Il y a 2 semaines", text: "Un voyage dans l'histoire impressionnant." },
-      { author: "Éric G.", date: "Il y a 4 jours", text: "Les guides sont excellents et très informatifs." },
-      { author: "Chantal M.", date: "Il y a 5 jours", text: "Un endroit chargé d'histoire et de culture." },
+      { author: "Maurias", date: "Il y a 2 jours", text: "Une expérience incroyable de découvrir la vie sur l'eau." },
+      { author: "Augustin", date: "Il y a 6 jours", text: "Une visite unique, hors des sentiers battus." },
+      { author: "Gilberte", date: "Il y a 4 jours", text: "Le calme et la beauté de ce lieu m'ont vraiment marqué." },
     ],
   },
   {
     id: 5,
-    name: "La Porte du Non-Retour",
-    location: "Ouidah, Bénin",
-    tags: ["Histoire", "Mémoire"],
-    description: "Un monument emblématique en hommage à l'histoire des esclaves africains.",
-    gallery: [image02, image01, image03],
+    name: "Palais Royal de Dahomey",
+    location: "Abomey, Bénin",
+    tags: ["Histoire", "Patrimoine", "Culture"],
+    description:
+      "Le Palais Royal de Dahomey, situé à Abomey, est l'un des sites les plus emblématiques du Bénin. Classé au patrimoine mondial de l'UNESCO, ce palais est un témoignage vivant de l'histoire du Royaume du Dahomey, qui a prospéré du XVIIe au XIXe siècle. Le palais était le centre du pouvoir politique et spirituel du royaume, abritant les rois et leur cour. Aujourd'hui, le Palais Royal est un musée où les visiteurs peuvent découvrir l'histoire fascinante du royaume et la richesse de la culture béninoise.",
+    gallery: [image05, image01, image02],
     reviews: [
-      { author: "Amadou S.", date: "Il y a 3 jours", text: "Un lieu émouvant qui ne laisse personne indifférent." },
-      { author: "Laura B.", date: "Il y a 1 semaine", text: "Une visite éducative et mémorable." },
-      { author: "Kouassi F.", date: "Il y a 2 jours", text: "Un endroit pour réfléchir à notre histoire commune." },
-    ],
-  },
-  {
-    id: 6,
-    name: "Ganvié - La Venise d'Afrique",
-    location: "Ganvié, Lac Nokoué",
-    tags: ["Culture", "Village lacustre"],
-    description: "Explorez ce village lacustre unique en Afrique de l'Ouest.",
-    gallery: [image03, image02, image01],
-    reviews: [
-      { author: "Sophie R.", date: "Il y a 4 jours", text: "Les balades en pirogue sont incroyables !" },
-      { author: "Martin D.", date: "Il y a 6 jours", text: "Une communauté fascinante et accueillante." },
-      { author: "Fatou N.", date: "Il y a 1 semaine", text: "Une visite incontournable au Bénin." },
-    ],
-  },
-  {
-    id: 7,
-    name: "Musée Historique de Ouidah",
-    location: "Ouidah, Bénin",
-    tags: ["Histoire", "Culture"],
-    description: "Un musée retraçant l'histoire et le patrimoine de la région.",
-    gallery: [image01, image03, image02],
-    reviews: [
-      { author: "Sylvain J.", date: "Il y a 3 jours", text: "Les expositions sont très bien organisées." },
-      { author: "Claire P.", date: "Il y a 5 jours", text: "Une immersion dans l'histoire fascinante du Bénin." },
-      { author: "Benoît L.", date: "Il y a 1 semaine", text: "Parfait pour comprendre la culture locale." },
-    ],
-  },
-  {
-    id: 8,
-    name: "Plage de Fidjrossè",
-    location: "Cotonou, Bénin",
-    tags: ["Plage", "Relaxation"],
-    description: "Une belle plage de sable où vous pourrez profiter du soleil et de la mer.",
-    gallery: [image02, image01, image03],
-    reviews: [
-      { author: "Julie V.", date: "Il y a 4 jours", text: "Une plage magnifique et très calme." },
-      { author: "Olivier T.", date: "Il y a 2 jours", text: "Idéal pour se détendre avec une vue splendide." },
-      { author: "Nadia F.", date: "Il y a 6 jours", text: "Un endroit parfait pour une journée en famille." },
-    ],
-  },
-  {
-    id: 9,
-    name: "Les Chutes de Kota",
-    location: "Natitingou, Bénin",
-    tags: ["Nature", "Randonnée"],
-    description: "Des cascades pittoresques entourées d'une nature luxuriante.",
-    gallery: [image03, image01, image02],
-    reviews: [
-      { author: "Marc L.", date: "Il y a 5 jours", text: "Un endroit spectaculaire pour les randonneurs." },
-      { author: "Élisabeth D.", date: "Il y a 3 jours", text: "Les paysages sont à couper le souffle." },
-      { author: "Henri F.", date: "Il y a 1 semaine", text: "Une expérience inoubliable en pleine nature." },
-    ],
-  },
-  {
-    id: 10,
-    name: "Forêt Sacrée de Kpassè",
-    location: "Ouidah, Bénin",
-    tags: ["Tradition", "Spiritualité"],
-    description: "Un lieu mystique où se mêlent nature et spiritualité.",
-    gallery: [image01, image02, image03],
-    reviews: [
-      { author: "Esther G.", date: "Il y a 2 jours", text: "Un endroit magique chargé de spiritualité." },
-      { author: "Thomas K.", date: "Il y a 1 semaine", text: "Une visite pleine de mystère et de légendes." },
-      { author: "Fanny P.", date: "Il y a 4 jours", text: "Un lieu calme et enrichissant." },
+      { author: "Augustin", date: "Il y a 1 jour", text: "Un lieu chargé d'histoire qui nous plonge dans l'époque des rois du Dahomey." },
+      { author: "Maurias", date: "Il y a 3 jours", text: "Les collections du musée sont impressionnantes." },
+      { author: "Gilberte", date: "Il y a 2 semaines", text: "Un voyage fascinant dans l'histoire du Bénin." },
     ],
   },
 ];

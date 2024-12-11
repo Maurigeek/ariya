@@ -51,11 +51,11 @@ export default {
           if (data.city) {
             this.location = data.city;
           } else {
-            this.location = "Cotonou";
+            this.location = "Localisation indisponible";
           }
         })
         .catch(() => {
-          this.location = "Cotonou";
+          this.location = "Erreur lors de la récupération de la localisation";
         });
     },
   },

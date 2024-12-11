@@ -68,9 +68,10 @@
 
 
 <script>
-import image01 from "@/assets/images/01.webp";
-import image02 from "@/assets/images/01.jpg";
-import image03 from "@/assets/images/02.jpg";
+import image01 from "@/assets/images/event1.jpeg";
+import image02 from "@/assets/images/event2.jpeg";
+import image03 from "@/assets/images/event3.jpeg";
+
 
 const fallbackEvents = [
   {
